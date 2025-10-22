@@ -1,182 +1,195 @@
-# Network Traffic Analyzer
+🌐 Network Traffic Analyzer (NTA)
 
-A full-stack web application that monitors live network packets and displays real-time statistics in a dashboard.
+A Full-Stack Real-Time Network Monitoring Application that captures live packets, analyzes them, and visualizes network statistics dynamically on a sleek dashboard.
 
-## Features
+Built with Flask, Scapy, React, and TailwindCSS, this project provides real-time insights into network traffic using WebSockets for live updates.
 
-- Live packet capture using Scapy
-- Real-time statistics aggregation
-- WebSocket communication between backend and frontend
-- React dashboard with TailwindCSS styling
-- Live traffic table display
-- Protocol distribution pie chart
-- Network traffic line chart
+🚀 Features
 
-## Project Structure
+✅ Live Packet Capture — Uses Scapy to capture and analyze packets in real-time
+✅ Real-Time Dashboard — Displays live traffic data with dynamic updates via WebSockets
+✅ Protocol Distribution — Pie chart visualization for different network protocols
+✅ Network Activity Timeline — Line chart showing network traffic trends
+✅ Traffic Table View — Displays detailed packet-level data instantly
+✅ Interface Selection — Choose from available network interfaces before capturing
+✅ Full-Stack Integration — Flask backend + React frontend with WebSocket communication
 
-```
+🧠 Tech Stack
+Backend
+
+🐍 Python (Flask)
+
+⚙️ Scapy (Packet Capture)
+
+🔌 Flask-SocketIO (Real-time WebSocket communication)
+
+📊 Pandas (Data aggregation)
+
+Frontend
+
+⚛️ React (Vite)
+
+🎨 TailwindCSS (UI styling)
+
+📈 Recharts (Data visualization)
+
+🔄 Socket.IO Client (Real-time updates)
+
+📁 Project Structure
 NTA/
 ├── backend/
-│   ├── app.py              # Flask application with packet capture
+│   ├── app.py              # Flask backend with Scapy and WebSocket logic
 │   ├── requirements.txt    # Python dependencies
 │   └── README.md           # Backend documentation
 └── frontend/
-    ├── src/                # React source code
-    │   ├── components/     # React components
-    │   ├── App.jsx         # Main application component
+    ├── src/
+    │   ├── components/     # React components (Charts, Tables, etc.)
+    │   ├── App.jsx         # Main React application
     │   └── main.jsx        # React entry point
     ├── package.json        # Frontend dependencies
     ├── vite.config.js      # Vite configuration
     └── README.md           # Frontend documentation
-```
 
-## Prerequisites
+⚙️ Prerequisites
 
-- Python 3.7+
-- Node.js 16+
-- npm or yarn
-- Administrative privileges (for packet capture)
+Before you begin, ensure you have the following installed:
 
-## Installation
+Python 3.7+
 
-### Backend Setup
+Node.js 16+
 
-1. Navigate to the backend directory:
-   ```
-   cd backend
-   ```
+npm or yarn
 
-2. Create a virtual environment (recommended):
-   ```
-   python -m venv venv
-   ```
+Administrator / Root Access (required for packet capture)
 
-3. Activate the virtual environment:
-   - On Windows:
-     ```
-     venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```
-     source venv/bin/activate
-     ```
+🧩 Installation Guide
+🔹 Backend Setup
+cd backend
+python -m venv venv
 
-4. Install Python dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
 
-### Frontend Setup
+Activate the environment:
 
-1. Navigate to the frontend directory:
-   ```
-   cd frontend
-   ```
+Windows:
 
-2. Install Node.js dependencies:
-   ```
-   npm install
-   ```
+venv\Scripts\activate
 
-## Running the Application
 
-### Development Mode
+macOS/Linux:
 
-1. Start the backend server:
-   ```
-   cd backend
-   python app.py
-   ```
-   The backend will start on http://localhost:5000
+source venv/bin/activate
 
-2. In a separate terminal, start the frontend development server:
-   ```
-   cd frontend
-   npm run dev
-   ```
-   The frontend will start on http://localhost:3000
 
-### Production Mode
+Install dependencies:
 
-1. Build the frontend:
-   ```
-   cd frontend
-   npm run build
-   ```
+pip install -r requirements.txt
 
-2. Start the backend server (it will automatically serve the frontend):
-   ```
-   cd backend
-   python app.py
-   ```
-   The application will be available on http://localhost:5000
+🔹 Frontend Setup
+cd frontend
+npm install
 
-## Usage
+🏃 Running the Application
+🔧 Development Mode
 
-1. Open your browser and navigate to the application URL
-2. Select a network interface from the dropdown
-3. Click "Start Capture" to begin monitoring network traffic
-4. View real-time statistics in the dashboard
-5. Click "Stop Capture" to stop monitoring
+Start Backend:
 
-## API Endpoints
+cd backend
+python app.py
 
-- `GET /api/interfaces` - List available network interfaces
-- `POST /api/start_capture` - Start packet capture on specified interface
-- `POST /api/stop_capture` - Stop packet capture
-- `GET /api/stats` - Get current statistics
 
-## WebSocket Events
+→ Runs on http://localhost:5000
 
-- `connect` - Client connection established
-- `disconnect` - Client disconnected
-- `update_stats` - Real-time statistics updates (emitted every 2 seconds)
-- `connection_status` - Connection status updates
+Start Frontend (in a new terminal):
 
-## Components
+cd frontend
+npm run dev
 
-### Backend (Python Flask)
 
-- Packet capture using Scapy
-- Statistics aggregation
-- WebSocket communication with frontend
-- REST API endpoints
+→ Runs on http://localhost:3000
 
-### Frontend (React + TailwindCSS)
+🚀 Production Mode
 
-- Dashboard with real-time statistics
-- Live traffic table
-- Protocol distribution chart
-- Network traffic chart
-- Network interface selection
+Build Frontend:
 
-## Troubleshooting
+cd frontend
+npm run build
 
-### Common Issues
 
-1. **Permission Error**: Packet capture requires administrative privileges. Run the application as administrator/root.
+Run Backend (serves built frontend):
 
-2. **Module Not Found**: Ensure all dependencies are installed:
-   ```
-   pip install -r backend/requirements.txt
-   npm install
-   ```
+cd backend
+python app.py
 
-3. **Port Conflicts**: If ports 5000 or 3000 are in use, modify the configuration files to use different ports.
 
-4. **Scapy Not Available**: On some systems, you may need to install Scapy separately:
-   ```
-   pip install scapy
-   ```
+→ Access via http://localhost:5000
 
-## Contributing
+📊 Dashboard Overview
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a pull request
+Network Interface Selector — Choose interface before capture
 
-## License
+Live Packet Capture Controls — Start/Stop buttons
+
+Real-Time Statistics — Auto-updating traffic overview
+
+Protocol Pie Chart — Visualizes distribution (TCP, UDP, ICMP, etc.)
+
+Traffic Line Chart — Monitors bandwidth trends
+
+Live Packet Table — Displays ongoing packet data
+
+🌐 API Endpoints
+Endpoint	Method	Description
+/api/interfaces	GET	List available network interfaces
+/api/start_capture	POST	Start packet capture on selected interface
+/api/stop_capture	POST	Stop current packet capture
+/api/stats	GET	Retrieve latest network statistics
+🔄 WebSocket Events
+Event	Direction	Description
+connect	Client → Server	WebSocket connection established
+disconnect	Client → Server	WebSocket disconnected
+update_stats	Server → Client	Sends live statistics (every 2 seconds)
+connection_status	Server → Client	Updates current connection state
+🧰 Troubleshooting
+Issue	Possible Cause	Solution
+Permission Denied	Scapy requires root/admin privileges	Run as Administrator or use sudo
+Module Not Found	Missing dependencies	pip install -r requirements.txt or npm install
+Port Conflict	Port 5000/3000 already in use	Update Flask or Vite config
+Scapy Not Available	OS dependency issue	Run pip install scapy manually
+🧑‍💻 Contributing
+
+Fork the repository
+
+Create a new branch:
+
+git checkout -b feature/your-feature-name
+
+
+Commit your changes:
+
+git commit -m "Add: new feature"
+
+
+Push the branch:
+
+git push origin feature/your-feature-name
+
+
+Create a Pull Request
+
+📜 License
 
 This project is licensed under the MIT License.
+See the LICENSE
+ file for more details.
+
+💡 Future Enhancements
+
+🔍 Advanced packet filtering options
+
+📈 Historical data storage (SQLite / MongoDB)
+
+🧠 AI-based anomaly detection
+
+📡 Multi-interface capture
+
+🔔 Alert system for suspicious activity
