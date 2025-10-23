@@ -76,20 +76,60 @@ Smooth transitions and particle backgrounds create an immersive “hacker consol
 
 ## 🧩 System Architecture
 
-┌───────────────────────────────┐
-│ Frontend │
-│ React + Tailwind + Recharts │
-│ ↓ WebSocket Live Data │
-├───────────────────────────────┤
-│ Backend │
-│ Flask + Flask-SocketIO │
-│ ↳ Scapy Packet Sniffer │
-│ ↳ AI Anomaly Detector │
-│ ↳ GeoIP & Threat APIs │
-├───────────────────────────────┤
-│ Data Layer │
-│ SQLite (Session Logs) │
-└───────────────────────────────┘
+The **Network Traffic Analyzer (NTA)** follows a modular full-stack architecture — integrating live packet capture, intelligent analysis, and dynamic visualization through WebSockets.
+
+                  ┌────────────────────────────┐
+                  │        Frontend UI          │
+                  │────────────────────────────│
+                  │  React + TailwindCSS        │
+                  │  Recharts + Framer Motion   │
+                  │                            │
+                  │ • Displays real-time charts │
+                  │ • Handles filtering/search  │
+                  │ • Shows GeoIP map & alerts  │
+                  │ • Communicates via WebSocket│
+                  └──────────────┬──────────────┘
+                                 │
+                      🔁 Real-Time Data Stream
+                                 │
+                  ┌──────────────┴──────────────┐
+                  │         Backend API          │
+                  │────────────────────────────│
+                  │  Flask + Flask-SocketIO     │
+                  │  Scapy + scikit-learn       │
+                  │                            │
+                  │ • Captures live packets     │
+                  │ • Extracts key features     │
+                  │ • Performs anomaly detection│
+                  │ • Enriches data with GeoIP  │
+                  │ • Checks IPs via Threat APIs│
+                  │ • Emits JSON payload to UI  │
+                  └──────────────┬──────────────┘
+                                 │
+                      🔁 Data Storage / Logs
+                                 │
+                  ┌──────────────┴──────────────┐
+                  │         Data Layer           │
+                  │────────────────────────────│
+                  │   SQLite / CSV / PCAP       │
+                  │                            │
+                  │ • Stores captured sessions  │
+                  │ • Maintains threat logs     │
+                  │ • Supports export features  │
+                  └──────────────┬──────────────┘
+                                 │
+                        🧠 Machine Learning Model
+                                 │
+                  ┌──────────────┴──────────────┐
+                  │    AI Anomaly Detector      │
+                  │────────────────────────────│
+                  │  IsolationForest / SVM      │
+                  │                            │
+                  │ • Learns normal patterns    │
+                  │ • Flags suspicious activity │
+                  │ • Sends threat level alerts │
+                  └────────────────────────────┘
+
 
 
 ---
@@ -151,3 +191,4 @@ This project is licensed under the MIT License — free to use and modify with a
 Developed by: Kvvvvvvvvv
 
 Made with 💻, ☕, and Cyber Vibes
+
