@@ -134,6 +134,28 @@ The **Network Traffic Analyzer (NTA)** follows a modular full-stack architecture
 
 ---
 
+---
+
+### 🧠 **Data Flow Overview**
+
+1. **Packet Capture:**  
+   Scapy sniffs packets from the local network interface.  
+2. **Feature Extraction:**  
+   Backend extracts IPs, ports, protocols, timestamps, and packet sizes.  
+3. **AI Detection:**  
+   Anomaly detection model classifies traffic as *Normal*, *Suspicious*, or *Malicious*.  
+4. **GeoIP & Threat Check:**  
+   IPs are enriched with geolocation and threat intelligence data.  
+5. **Real-Time Streaming:**  
+   Flask-SocketIO sends JSON updates to the frontend every second.  
+6. **Visualization:**  
+   React frontend displays traffic charts, Geo maps, and alerts dynamically.  
+7. **Storage & Export:**  
+   Data is logged into SQLite / CSV / PCAP for session replay or analysis.
+
+---
+
+
 ## 🧠 How It Works
 
 1. **Scapy** captures live packets from the network interface.  
@@ -191,4 +213,5 @@ This project is licensed under the MIT License — free to use and modify with a
 Developed by: Kvvvvvvvvv
 
 Made with 💻, ☕, and Cyber Vibes
+
 
