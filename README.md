@@ -210,8 +210,9 @@ This project is licensed under the MIT License — free to use and modify with a
 
 ✨ Author
 
-Developed by: Kvvvvvvvvv
+Developed by: Keerthivasan E
 
 Made with 💻, ☕, and Cyber Vibes
+
 
 
