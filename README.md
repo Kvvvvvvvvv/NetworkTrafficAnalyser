@@ -1,189 +1,191 @@
-# 🌐 Network Traffic Analyzer (NTA)
+# Network Traffic Analyzer v2.0 - Cyberpunk Edition
 
-A Full-Stack Real-Time Network Monitoring Application that captures live packets, analyzes them, and visualizes network statistics dynamically on a sleek dashboard.
+A cutting-edge network monitoring and analysis tool with a futuristic cyberpunk aesthetic, powered by Flask, React, and advanced cybersecurity technologies.
 
-Built with Flask, Scapy, React, and TailwindCSS, this project provides real-time insights into network traffic using WebSockets for live updates.
+## Features
 
-## 🚀 Features
+### 🤖 AI-Based Traffic Anomaly Detection
+- Machine learning-powered anomaly detection using Isolation Forest algorithm
+- Real-time identification of suspicious network behavior
+- Visual threat indicators with color-coded status badges (🟢 Normal / 🟠 Suspicious / 🔴 Malicious)
 
-✅ **Live Packet Capture** — Uses Scapy to capture and analyze packets in real-time  
-✅ **Real-Time Dashboard** — Displays live traffic data with dynamic updates via WebSockets  
-✅ **Protocol Distribution** — Pie chart visualization for different network protocols  
-✅ **Network Activity Timeline** — Line chart showing network traffic trends  
-✅ **Traffic Table View** — Displays detailed packet-level data instantly  
-✅ **Interface Selection** — Choose from available network interfaces before capturing  
-✅ **Full-Stack Integration** — Flask backend + React frontend with WebSocket communication  
+### 🌐 Interactive Real-Time Charts
+- Dynamic visualizations using Recharts
+- Smooth animations with Framer Motion
+- Protocol distribution, traffic patterns, and top talkers visualization
 
-## 🧠 Tech Stack
+### 🌍 GeoIP Tracking
+- IP geolocation with ipinfo.io integration
+- Interactive world map visualization using react-simple-maps
+- Glowing markers for active connections
+
+### 🛡️ Threat Intelligence Integration
+- AbuseIPDB and VirusTotal API integration
+- Real-time blacklisted IP detection
+- Threat severity scoring and reporting
+
+### 🔍 Advanced Packet Filtering & Search
+- Dynamic filtering by IP, protocol, port, and packet size
+- Time-based filtering options
+- Real-time filtered view updates
+
+### 📦 Session Capture & Export
+- Start/Stop capture functionality
+- Export sessions as PCAP or CSV files
+- Neon pulse notifications for session events
+
+### 🖤 Cyberpunk UI Theme
+- Dark theme with neon green, blue, and purple accents
+- Terminal-style JetBrains Mono font
+- Animated particle background with glowing effects
+- Matrix-inspired grid overlay
+- Cyberpunk boot animation sequence
+
+## Technology Stack
 
 ### Backend
-
-🐍 **Python (Flask)**  
-⚙️ **Scapy (Packet Capture)**  
-🔌 **Flask-SocketIO (Real-time WebSocket communication)**  
-📊 **Pandas (Data aggregation)**  
+- **Python 3.7+** - Core language
+- **Flask** - Web framework
+- **Scapy** - Packet capture and analysis
+- **Scikit-learn** - Machine learning for anomaly detection
+- **SQLite** - Data storage
+- **ipinfo** - GeoIP services
 
 ### Frontend
+- **React 18** - UI framework
+- **Vite** - Build tool
+- **TailwindCSS** - Styling
+- **Recharts** - Data visualization
+- **Framer Motion** - Animations
+- **react-simple-maps** - GeoIP visualization
 
-⚛️ **React (Vite)**  
-🎨 **TailwindCSS (UI styling)**  
-📈 **Recharts (Data visualization)**  
-🔄 **Socket.IO Client (Real-time updates)**  
+## Installation
 
-## 📁 Project Structure
+### Prerequisites
+- Python 3.7+
+- Node.js 16+
+- Administrative privileges for packet capture
+
+### Backend Setup
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r backend/requirements.txt
+
+# Set API keys (optional but recommended)
+export IPINFO_TOKEN="your_ipinfo_token"
+export ABUSEIPDB_API_KEY="your_abuseipdb_key"
+```
+
+### Frontend Setup
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Build for production
+npm run build
+```
+
+## Usage
+
+### Development Mode
+```bash
+# Start backend (in one terminal)
+cd backend
+python app.py
+
+# Start frontend (in another terminal)
+cd frontend
+npm run dev
+```
+
+### Production Mode
+```bash
+# Build frontend
+cd frontend
+npm run build
+
+# Start backend (serves frontend)
+cd backend
+python app.py
+```
+
+### Automated Scripts
+- **Windows**: Run `setup.bat` to install dependencies, `run.bat` to start the application
+- **Linux/Mac**: Run `setup.sh` to install dependencies, `run.sh` to start the application
+
+## API Endpoints
+
+### Backend API
+- `GET /api/interfaces` - List available network interfaces
+- `POST /api/start_capture` - Start packet capture
+- `POST /api/stop_capture` - Stop packet capture
+- `GET /api/stats` - Get current statistics
+- `POST /api/set_filters` - Set packet filters
+- `POST /api/disable_filters` - Disable packet filters
+- `GET /api/get_geoip_data` - Get GeoIP data
+- `GET /api/threat_intel_status` - Get threat intelligence status
+- `POST /api/check_ip` - Manually check IP against threat feeds
+- `GET /api/export_session` - Export capture session
+
+## WebSocket Events
+
+- `connect` - Client connected
+- `disconnect` - Client disconnected
+- `update_stats` - Statistics update
+- `alert` - Security alert
+
+## Configuration
+
+### Environment Variables
+- `IPINFO_TOKEN` - ipinfo.io API token for GeoIP services
+- `ABUSEIPDB_API_KEY` - AbuseIPDB API key for threat intelligence
+- `VIRUSTOTAL_API_KEY` - VirusTotal API key for threat intelligence
+
+## Project Structure
 
 ```
 NTA/
 ├── backend/
-│   ├── app.py              # Flask backend with Scapy and WebSocket logic
+│   ├── app.py              # Main Flask application
 │   ├── requirements.txt    # Python dependencies
-│   └── README.md           # Backend documentation
-└── frontend/
-    ├── src/
-    │   ├── components/     # React components (Charts, Tables, etc.)
-    │   ├── App.jsx         # Main React application
-    │   └── main.jsx        # React entry point
-    ├── package.json        # Frontend dependencies
-    ├── vite.config.js      # Vite configuration
-    └── README.md           # Frontend documentation
+│   └── nta_data.db         # SQLite database
+├── frontend/
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── App.jsx         # Main application component
+│   │   └── main.jsx        # Application entry point
+│   ├── package.json        # Node.js dependencies
+│   └── tailwind.config.js  # TailwindCSS configuration
+├── setup.sh                # Setup script (Linux/Mac)
+├── setup.bat               # Setup script (Windows)
+├── run.sh                  # Run script (Linux/Mac)
+└── run.bat                 # Run script (Windows)
 ```
 
-## ⚙️ Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Python 3.7+**
-- **Node.js 16+**
-- **npm or yarn**
-- **Administrator / Root Access** (required for packet capture)
-
-## 🧩 Installation Guide
-
-### 🔹 Backend Setup
-
-```bash
-cd backend
-python -m venv venv
-```
-
-**Activate the environment:**
-
-**Windows:**
-```bash
-venv\Scripts\activate
-```
-
-**macOS/Linux:**
-```bash
-source venv/bin/activate
-```
-
-**Install dependencies:**
-```bash
-pip install -r requirements.txt
-```
-
-### 🔹 Frontend Setup
-
-```bash
-cd frontend
-npm install
-```
-
-## 🏃 Running the Application
-
-### 🔧 Development Mode
-
-**Start Backend:**
-```bash
-cd backend
-python app.py
-```
-→ Runs on http://localhost:5000
-
-**Start Frontend (in a new terminal):**
-```bash
-cd frontend
-npm run dev
-```
-→ Runs on http://localhost:3000
-
-### 🚀 Production Mode
-
-**Build Frontend:**
-```bash
-cd frontend
-npm run build
-```
-
-**Run Backend (serves built frontend):**
-```bash
-cd backend
-python app.py
-```
-→ Access via http://localhost:5000
-
-## 📊 Dashboard Overview
-
-- **Network Interface Selector** — Choose interface before capture
-- **Live Packet Capture Controls** — Start/Stop buttons
-- **Real-Time Statistics** — Auto-updating traffic overview
-- **Protocol Pie Chart** — Visualizes distribution (TCP, UDP, ICMP, etc.)
-- **Traffic Line Chart** — Monitors bandwidth trends
-- **Live Packet Table** — Displays ongoing packet data
-
-## 🌐 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/interfaces` | GET | List available network interfaces |
-| `/api/start_capture` | POST | Start packet capture on selected interface |
-| `/api/stop_capture` | POST | Stop current packet capture |
-| `/api/stats` | GET | Retrieve latest network statistics |
-
-## 🔄 WebSocket Events
-
-| Event | Direction | Description |
-|-------|-----------|-------------|
-| `connect` | Client → Server | WebSocket connection established |
-| `disconnect` | Client → Server | WebSocket disconnected |
-| `update_stats` | Server → Client | Sends live statistics (every 2 seconds) |
-| `connection_status` | Server → Client | Updates current connection state |
-
-## 🧰 Troubleshooting
-
-| Issue | Possible Cause | Solution |
-|-------|----------------|----------|
-| Permission Denied | Scapy requires root/admin privileges | Run as Administrator or use sudo |
-| Module Not Found | Missing dependencies | `pip install -r requirements.txt` or `npm install` |
-| Port Conflict | Port 5000/3000 already in use | Update Flask or Vite config |
-| Scapy Not Available | OS dependency issue | Run `pip install scapy` manually |
-
-## 🧑‍💻 Contributing
+## Contributing
 
 1. Fork the repository
-2. Create a new branch:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add: new feature"
-   ```
-4. Push the branch:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. Create a Pull Request
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a pull request
 
-## 📜 License
+## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 💡 Future Enhancements
+## Acknowledgments
 
-- 🔍 Advanced packet filtering options
-- 📈 Historical data storage (SQLite / MongoDB)
-- 🧠 AI-based anomaly detection
-- 📡 Multi-interface capture
-- 🔔 Alert system for suspicious activity
+- [Scapy](https://scapy.net/) for packet manipulation
+- [Flask](https://palletsprojects.com/p/flask/) for the web framework
+- [React](https://reactjs.org/) for the frontend library
+- [TailwindCSS](https://tailwindcss.com/) for styling
+- [ipinfo](https://ipinfo.io/) for GeoIP services
+- [AbuseIPDB](https://www.abuseipdb.com/) for threat intelligence

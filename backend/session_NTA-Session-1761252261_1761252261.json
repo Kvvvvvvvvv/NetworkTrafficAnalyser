@@ -1,0 +1,572 @@
+{
+  "session_info": {
+    "name": "NTA-Session-1761252261",
+    "start_time": 1761252261.7347794,
+    "packets": [],
+    "end_time": 1761252266.955185,
+    "duration": 5.220405578613281,
+    "packet_count": 70
+  },
+  "packets": [
+    {
+      "timestamp": 1761252263.608135,
+      "src": "192.168.1.4",
+      "dst": "47.236.175.159",
+      "protocol": 6,
+      "size": 55,
+      "raw": "Ether / IP / TCP 192.168.1.4:60590 > 47.236.175.159:https A / Raw"
+    },
+    {
+      "timestamp": 1761252263.6157453,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.618318,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.620339,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.678439,
+      "src": "192.168.1.4",
+      "dst": "47.236.175.159",
+      "protocol": 6,
+      "size": 55,
+      "raw": "Ether / IP / TCP 192.168.1.4:60590 > 47.236.175.159:https A / Raw"
+    },
+    {
+      "timestamp": 1761252263.6915088,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.6949658,
+      "src": "192.168.1.4",
+      "dst": "47.236.175.159",
+      "protocol": 6,
+      "size": 55,
+      "raw": "Ether / IP / TCP 192.168.1.4:60590 > 47.236.175.159:https A / Raw"
+    },
+    {
+      "timestamp": 1761252263.717559,
+      "src": "192.168.1.4",
+      "dst": "47.236.175.159",
+      "protocol": 6,
+      "size": 55,
+      "raw": "Ether / IP / TCP 192.168.1.4:60590 > 47.236.175.159:https A / Raw"
+    },
+    {
+      "timestamp": 1761252263.7284446,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.9680362,
+      "src": "47.236.175.159",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 47.236.175.159:https > 192.168.1.4:60590 A"
+    },
+    {
+      "timestamp": 1761252263.9680362,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.972013,
+      "src": "192.168.1.4",
+      "dst": "173.45.77.90",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:60589 > 173.45.77.90:https FA"
+    },
+    {
+      "timestamp": 1761252263.972013,
+      "src": "47.236.175.159",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 47.236.175.159:https > 192.168.1.4:60590 A"
+    },
+    {
+      "timestamp": 1761252263.993599,
+      "src": "Unknown",
+      "dst": "Unknown",
+      "protocol": 0,
+      "size": 60,
+      "raw": "Ether / ARP who has 192.168.1.1 says 192.168.1.1 / Padding"
+    },
+    {
+      "timestamp": 1761252264.0202358,
+      "src": "47.236.175.159",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 47.236.175.159:https > 192.168.1.4:60590 A"
+    },
+    {
+      "timestamp": 1761252264.0351365,
+      "src": "47.236.175.159",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 47.236.175.159:https > 192.168.1.4:60590 A"
+    },
+    {
+      "timestamp": 1761252264.0519123,
+      "src": "Unknown",
+      "dst": "Unknown",
+      "protocol": 0,
+      "size": 60,
+      "raw": "Ether / ARP who has 192.168.1.1 says 192.168.1.1 / Padding"
+    },
+    {
+      "timestamp": 1761252264.0519123,
+      "src": "Unknown",
+      "dst": "Unknown",
+      "protocol": 0,
+      "size": 60,
+      "raw": "Ether / ARP who has 192.168.1.1 says 192.168.1.1 / Padding"
+    },
+    {
+      "timestamp": 1761252264.0684054,
+      "src": "Unknown",
+      "dst": "Unknown",
+      "protocol": 0,
+      "size": 60,
+      "raw": "Ether / ARP who has 192.168.1.1 says 192.168.1.1 / Padding"
+    },
+    {
+      "timestamp": 1761252266.0399544,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.0399544,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.0399544,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.0399544,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.0569441,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.0731862,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.1044705,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.1343918,
+      "src": "192.168.1.4",
+      "dst": "4.213.25.242",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49503 > 4.213.25.242:https A"
+    },
+    {
+      "timestamp": 1761252266.147307,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 66,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https S"
+    },
+    {
+      "timestamp": 1761252266.1710844,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 SA"
+    },
+    {
+      "timestamp": 1761252266.1983411,
+      "src": "4.213.25.242",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 4.213.25.242:https > 192.168.1.4:49503 A"
+    },
+    {
+      "timestamp": 1761252266.2172306,
+      "src": "192.168.1.4",
+      "dst": "4.213.25.242",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49503 > 4.213.25.242:https A"
+    },
+    {
+      "timestamp": 1761252266.2233782,
+      "src": "192.168.1.4",
+      "dst": "4.213.25.242",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49503 > 4.213.25.242:https A"
+    },
+    {
+      "timestamp": 1761252266.238122,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 66,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https S"
+    },
+    {
+      "timestamp": 1761252266.2520854,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 SA"
+    },
+    {
+      "timestamp": 1761252266.277593,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.294687,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 339,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.3216293,
+      "src": "192.168.1.4",
+      "dst": "4.213.25.242",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49503 > 4.213.25.242:https A"
+    },
+    {
+      "timestamp": 1761252266.353941,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 66,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https S"
+    },
+    {
+      "timestamp": 1761252266.3771007,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.3950758,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 58,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A"
+    },
+    {
+      "timestamp": 1761252266.4117768,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 66,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https S"
+    },
+    {
+      "timestamp": 1761252266.4242496,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 SA"
+    },
+    {
+      "timestamp": 1761252266.4376793,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 339,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.4477735,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.4630196,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 70,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 SA"
+    },
+    {
+      "timestamp": 1761252266.4785993,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.4864044,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 58,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A"
+    },
+    {
+      "timestamp": 1761252266.5103755,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.535009,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.550714,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.5697818,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 339,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.58411,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.5977013,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 339,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.6204603,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.6506476,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 58,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A"
+    },
+    {
+      "timestamp": 1761252266.669983,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.716031,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 58,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A"
+    },
+    {
+      "timestamp": 1761252266.7368066,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.7529514,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.7704391,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.7949858,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.8229713,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.851844,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 62,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.870202,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.8829362,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 1510,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 A / Raw"
+    },
+    {
+      "timestamp": 1761252266.890534,
+      "src": "8.212.124.35",
+      "dst": "192.168.1.4",
+      "protocol": 6,
+      "size": 62,
+      "raw": "Ether / Dot1Q / IP / TCP 8.212.124.35:https > 192.168.1.4:49235 PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.9036376,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.9173567,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 147,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https PA / Raw"
+    },
+    {
+      "timestamp": 1761252266.9211743,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    },
+    {
+      "timestamp": 1761252266.955185,
+      "src": "192.168.1.4",
+      "dst": "8.212.124.35",
+      "protocol": 6,
+      "size": 54,
+      "raw": "Ether / IP / TCP 192.168.1.4:49235 > 8.212.124.35:https A"
+    }
+  ]
+}

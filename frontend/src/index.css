@@ -1,171 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for Network Traffic Analyzer */
+/* Cyberpunk Theme Variables */
+:root {
+  --cyber-neon-green: #00ff9d;
+  --cyber-neon-blue: #00eeff;
+  --cyber-neon-purple: #bd00ff;
+  --cyber-neon-pink: #ff00c8;
+  --cyber-neon-yellow: #fdee00;
+  --cyber-neon-red: #ff003c;
+  --cyber-dark-bg: #0a0a0a;
+  --cyber-grid-bg: #0f0f1a;
+  --cyber-card-bg: #121212;
+  --cyber-border: #2a2a2a;
+}
+
+/* Base styles for cyberpunk theme */
 @layer base {
-  :root {
-    --nta-primary: #3b82f6;
-    --nta-primary-dark: #2563eb;
-    --nta-primary-darker: #1d4ed8;
-    --nta-secondary: #60a5fa;
-    --nta-accent: #93c5fd;
-    --nta-dark-bg: #0f172a;
-    --nta-dark-card: #1e293b;
-    --nta-dark-border: #334155;
-    --nta-text-primary: #f1f5f9;
-    --nta-text-secondary: #cbd5e1;
-    --nta-success: #10b981;
-    --nta-warning: #f59e0b;
-    --nta-danger: #ef4444;
+  body {
+    @apply bg-[#0a0a0a] text-[#00ff9d] font-mono;
+    background-image: 
+      linear-gradient(rgba(26, 26, 46, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 26, 46, 0.3) 1px, transparent 1px);
+    background-size: 20px 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
   
-  body {
-    @apply bg-slate-900 text-slate-100;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* Scrollbar styling for cyberpunk theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#0f0f1a];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#00eeff] rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#00ff9d];
   }
 }
 
+/* Cyberpunk component styles */
 @layer components {
-  .nta-card {
-    @apply bg-slate-800 rounded-xl shadow-lg border border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-xl;
+  /* Cyber Card */
+  .cyber-card {
+    @apply bg-[#121212] rounded-lg border border-[#2a2a2a] shadow-lg overflow-hidden transition-all duration-300;
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.2);
   }
   
-  .nta-card-header {
-    @apply bg-slate-700/50 px-6 py-4 border-b border-slate-600;
+  .cyber-card:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
   }
   
-  .nta-card-body {
+  .cyber-card-header {
+    @apply px-6 py-4 border-b border-[#2a2a2a];
+  }
+  
+  .cyber-card-body {
     @apply p-6;
   }
   
-  .nta-btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900;
+  /* Cyber Buttons */
+  .cyber-btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded font-mono text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a];
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   
-  .nta-btn-primary {
-    @apply nta-btn bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 text-white;
+  .cyber-btn-primary {
+    @apply cyber-btn bg-[#00ff9d] text-[#0a0a0a] hover:bg-[#00eeff] hover:text-white;
+    box-shadow: 0 0 5px #00ff9d;
   }
   
-  .nta-btn-secondary {
-    @apply nta-btn bg-slate-700 hover:bg-slate-600 focus:ring-slate-500 text-slate-100;
+  .cyber-btn-primary:hover {
+    box-shadow: 0 0 10px #00eeff;
   }
   
-  .nta-btn-danger {
-    @apply nta-btn bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white;
+  .cyber-btn-secondary {
+    @apply cyber-btn bg-[#1a1a1a] hover:bg-[#2a2a2a] text-[#00eeff];
+    box-shadow: 0 0 5px rgba(0, 238, 255, 0.3);
   }
   
-  .nta-btn-success {
-    @apply nta-btn bg-green-600 hover:bg-green-700 focus:ring-green-500 text-white;
+  .cyber-btn-danger {
+    @apply cyber-btn bg-[#ff003c] text-white hover:bg-opacity-80;
+    box-shadow: 0 0 5px #ff003c;
   }
   
-  .nta-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  .cyber-btn-danger:hover {
+    box-shadow: 0 0 15px #ff003c;
   }
   
-  .nta-badge-primary {
-    @apply nta-badge bg-blue-900/50 text-blue-300;
+  /* Cyber Badges */
+  .cyber-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   
-  .nta-badge-success {
-    @apply nta-badge bg-green-900/50 text-green-300;
+  .cyber-badge-primary {
+    @apply cyber-badge bg-[#00eeff]/20 text-[#00eeff];
+    box-shadow: 0 0 5px rgba(0, 238, 255, 0.3);
   }
   
-  .nta-badge-warning {
-    @apply nta-badge bg-yellow-900/50 text-yellow-300;
+  .cyber-badge-success {
+    @apply cyber-badge bg-[#00ff9d]/20 text-[#00ff9d];
+    box-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
   }
   
-  .nta-badge-danger {
-    @apply nta-badge bg-red-900/50 text-red-300;
+  .cyber-badge-warning {
+    @apply cyber-badge bg-[#fdee00]/20 text-[#fdee00];
+    box-shadow: 0 0 5px rgba(253, 238, 0, 0.3);
   }
   
-  .nta-table {
-    @apply min-w-full divide-y divide-slate-700;
+  .cyber-badge-danger {
+    @apply cyber-badge bg-[#ff003c]/20 text-[#ff003c];
+    box-shadow: 0 0 5px rgba(255, 0, 60, 0.3);
   }
   
-  .nta-table-head {
-    @apply bg-slate-800/50 text-slate-300 uppercase text-xs font-semibold tracking-wider;
+  .cyber-badge-purple {
+    @apply cyber-badge bg-[#bd00ff]/20 text-[#bd00ff];
+    box-shadow: 0 0 5px rgba(189, 0, 255, 0.3);
   }
   
-  .nta-table-cell {
-    @apply px-6 py-4 whitespace-nowrap text-sm;
+  /* Cyber Table */
+  .cyber-table {
+    @apply min-w-full divide-y divide-[#2a2a2a];
   }
   
-  .nta-table-row {
-    @apply bg-slate-800/20 hover:bg-slate-700/30 transition-colors duration-150;
+  .cyber-table-head {
+    @apply bg-[#1a1a1a] text-[#00eeff] uppercase text-xs font-mono font-semibold tracking-wider;
   }
   
-  .nta-stat-card {
-    @apply nta-card overflow-hidden;
+  .cyber-table-cell {
+    @apply px-6 py-4 whitespace-nowrap text-sm font-mono;
   }
   
-  .nta-stat-card-header {
-    @apply px-4 py-5 sm:px-6 border-b border-slate-700/50;
+  .cyber-table-row {
+    @apply bg-[#121212] hover:bg-[#1a1a1a] transition-colors duration-150;
   }
   
-  .nta-stat-card-body {
+  /* Cyber Stat Cards */
+  .cyber-stat-card {
+    @apply cyber-card overflow-hidden;
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.1);
+  }
+  
+  .cyber-stat-card:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+  }
+  
+  .cyber-stat-card-header {
+    @apply px-4 py-5 sm:px-6 border-b border-[#2a2a2a];
+  }
+  
+  .cyber-stat-card-body {
     @apply px-4 py-5 sm:p-6;
   }
   
-  .nta-chart-container {
-    @apply nta-card p-4;
+  /* Cyber Chart Container */
+  .cyber-chart-container {
+    @apply cyber-card p-4;
   }
   
-  .nta-traffic-table {
-    @apply nta-card;
+  /* Cyber Traffic Table */
+  .cyber-traffic-table {
+    @apply cyber-card;
   }
   
-  .nta-traffic-table-header {
-    @apply nta-card-header;
+  .cyber-traffic-table-header {
+    @apply cyber-card-header;
   }
   
-  .nta-traffic-table-body {
-    @apply border-t border-slate-700;
+  .cyber-traffic-table-body {
+    @apply border-t border-[#2a2a2a];
+  }
+  
+  /* Anomaly Status Badges */
+  .anomaly-normal {
+    @apply cyber-badge-success;
+  }
+  
+  .anomaly-suspicious {
+    @apply cyber-badge-warning animate-pulse;
+  }
+  
+  .anomaly-malicious {
+    @apply cyber-badge-danger animate-pulse;
   }
 }
 
-/* Custom animations and effects */
+/* Cyberpunk Animations and Effects */
 @layer utilities {
-  .pulse-slow {
-    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .glow-text {
+    text-shadow: 0 0 5px currentColor;
   }
   
-  @keyframes pulse-slow {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
+  .glow-text-strong {
+    text-shadow: 0 0 10px currentColor;
   }
   
-  .glow-blue {
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+  .glow-border {
+    box-shadow: 0 0 5px currentColor;
   }
   
-  .glow-green {
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  .glow-border-strong {
+    box-shadow: 0 0 10px currentColor;
   }
   
-  .glow-red {
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+  .neon-glow-green {
+    box-shadow: 0 0 5px #00ff9d, 0 0 15px #00ff9d;
+  }
+  
+  .neon-glow-blue {
+    box-shadow: 0 0 5px #00eeff, 0 0 15px #00eeff;
+  }
+  
+  .neon-glow-purple {
+    box-shadow: 0 0 5px #bd00ff, 0 0 15px #bd00ff;
+  }
+  
+  .neon-glow-red {
+    box-shadow: 0 0 5px #ff003c, 0 0 15px #ff003c;
+  }
+  
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scan-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff9d, transparent);
+    animation: scan 4s linear infinite;
+  }
+  
+  @keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+  }
+  
+  .terminal-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background-color: currentColor;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  .matrix-bg {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .matrix-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(0, 255, 157, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 157, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
   }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Boot animation styles */
+.boot-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-slate-800;
+.boot-text {
+  font-size: 1.5rem;
+  color: #00ff9d;
+  text-shadow: 0 0 10px #00ff9d;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-600 rounded-full;
+.boot-progress {
+  width: 300px;
+  height: 4px;
+  background-color: #2a2a2a;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500;
+.boot-progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #00ff9d;
+  box-shadow: 0 0 10px #00ff9d;
+  transition: width 0.3s ease;
 }

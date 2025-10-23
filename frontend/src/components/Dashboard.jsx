@@ -4,8 +4,9 @@ import ProtocolChart from './ProtocolChart';
 import BytesChart from './BytesChart';
 import TopTalkersChart from './TopTalkersChart';
 import TrafficHeatmap from './TrafficHeatmap';
+import PacketFilter from './PacketFilter';
 
-const Dashboard = ({ socket, onStopCapture }) => {
+const Dashboard = ({ socket, onStopCapture, interfaces }) => {
   const [stats, setStats] = useState({
     total_packets: 0,
     total_bytes: 0,
@@ -15,6 +16,9 @@ const Dashboard = ({ socket, onStopCapture }) => {
     packet_history: []
   });
 
+  const [selectedInterfaces, setSelectedInterfaces] = useState([]);
+  const [showAdvancedFeatures, setShowAdvancedFeatures] = useState(false);
+
   useEffect(() => {
     if (!socket) return;
 
@@ -22,8 +26,14 @@ const Dashboard = ({ socket, onStopCapture }) => {
       setStats(data);
     });
 
+    socket.on('alert', (alert) => {
+      // Show alert notification
+      console.log('Alert received:', alert);
+    });
+
     return () => {
       socket.off('update_stats');
+      socket.off('alert');
     };
   }, [socket]);
 
@@ -35,6 +45,41 @@ const Dashboard = ({ socket, onStopCapture }) => {
       onStopCapture();
     } catch (err) {
       console.error('Failed to stop capture:', err);
+    }
+  };
+
+  const handleInterfaceChange = (interfaceName) => {
+    setSelectedInterfaces(prev => {
+      if (prev.includes(interfaceName)) {
+        return prev.filter(iface => iface !== interfaceName);
+      } else {
+        return [...prev, interfaceName];
+      }
+    });
+  };
+
+  const startMultiInterfaceCapture = async () => {
+    if (selectedInterfaces.length === 0) {
+      alert('Please select at least one interface');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/start_capture', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ interfaces: selectedInterfaces }),
+      });
+
+      const data = await response.json();
+      if (data.status !== 'success') {
+        alert('Failed to start capture: ' + data.message);
+      }
+    } catch (err) {
+      console.error('Failed to start capture:', err);
+      alert('Failed to start capture');
     }
   };
 
@@ -257,6 +302,52 @@ const Dashboard = ({ socket, onStopCapture }) => {
         </div>
       </div>
 
+      {/* Multi-Interface Selection */}
+      <div className="nta-card mb-8">
+        <div className="nta-card-header">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-slate-100">Network Interfaces</h2>
+              <p className="mt-1 text-sm text-slate-400">Select interfaces for multi-interface capture</p>
+            </div>
+            <button
+              onClick={startMultiInterfaceCapture}
+              className="nta-btn-primary mt-3 sm:mt-0 px-4 py-2 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+            >
+              <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Start Multi-Interface Capture
+            </button>
+          </div>
+        </div>
+        
+        <div className="nta-card-body">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {interfaces.map((iface, index) => (
+              <div 
+                key={index}
+                className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 ${
+                  selectedInterfaces.includes(iface) 
+                    ? 'border-blue-500 bg-blue-900/20' 
+                    : 'border-slate-700 bg-slate-800/50 hover:bg-slate-700/50'
+                }`}
+                onClick={() => handleInterfaceChange(iface)}
+              >
+                <div className="flex items-center">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${
+                    selectedInterfaces.includes(iface) ? 'bg-blue-500' : 'bg-slate-600'
+                  }`}></div>
+                  <div>
+                    <h3 className="font-medium text-slate-100">{iface}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Control Panel */}
       <div className="nta-card mb-8">
         <div className="nta-card-header">
@@ -265,16 +356,24 @@ const Dashboard = ({ socket, onStopCapture }) => {
               <h2 className="text-lg font-bold text-slate-100">Traffic Capture</h2>
               <p className="mt-1 text-sm text-slate-400">Real-time network monitoring in progress</p>
             </div>
-            <button
-              onClick={stopCapture}
-              className="nta-btn-danger mt-3 sm:mt-0 px-4 py-2 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 glow-red"
-            >
-              <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
-              </svg>
-              Stop Capture
-            </button>
+            <div className="flex space-x-3 mt-3 sm:mt-0">
+              <button
+                onClick={() => setShowAdvancedFeatures(!showAdvancedFeatures)}
+                className="nta-btn-secondary px-4 py-2 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                {showAdvancedFeatures ? 'Hide Advanced' : 'Show Advanced'}
+              </button>
+              <button
+                onClick={stopCapture}
+                className="nta-btn-danger px-4 py-2 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 glow-red"
+              >
+                <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                </svg>
+                Stop Capture
+              </button>
+            </div>
           </div>
         </div>
         
@@ -310,6 +409,13 @@ const Dashboard = ({ socket, onStopCapture }) => {
           </div>
         </div>
       </div>
+
+      {/* Advanced Features */}
+      {showAdvancedFeatures && (
+        <div className="mb-8">
+          <PacketFilter socket={socket} />
+        </div>
+      )}
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">

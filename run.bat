@@ -1,32 +1,22 @@
 @echo off
-REM Network Traffic Analyzer Run Script
-
-echo Network Traffic Analyzer Run Script
-echo ================================
-
-REM Check if we're in the right directory
-if not exist "backend" (
-    echo Error: backend directory not found!
-    echo Please run this script from the root NTA directory.
-    pause
-    exit /b 1
-)
-
-echo Starting backend server...
-cd backend
-
-REM Check if virtual environment exists
-if not exist "venv" (
-    echo Error: Virtual environment not found!
-    echo Please run setup.bat first.
-    pause
-    exit /b 1
-)
+echo Network Traffic Analyzer - Run Script
+echo ====================================
 
 echo Activating virtual environment...
 call venv\Scripts\activate.bat
+if %ERRORLEVEL% NEQ 0 (
+    echo Failed to activate virtual environment
+    echo Please run setup.bat first
+    pause
+    exit /b 1
+)
 
-echo Starting Flask server...
+echo Starting Network Traffic Analyzer...
+echo Make sure you're running this as Administrator for packet capture!
+echo.
 echo The application will be available at http://localhost:5000
-echo Press Ctrl+C to stop the server
+echo Press Ctrl+C to stop the application
+echo.
+
+cd backend
 python app.py
