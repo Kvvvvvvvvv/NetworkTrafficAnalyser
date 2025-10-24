@@ -5,32 +5,71 @@ import { motion } from 'framer-motion';
 // World map data
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-// Mock geo data for demonstration
-const mockGeoData = [
-  { ip: '192.168.1.105', country: 'United States', countryCode: 'US', latitude: 37.0902, longitude: -95.7129, traffic: 1250000 },
-  { ip: '10.0.0.42', country: 'Germany', countryCode: 'DE', latitude: 51.1657, longitude: 10.4515, traffic: 980000 },
-  { ip: '203.0.113.5', country: 'Japan', countryCode: 'JP', latitude: 36.2048, longitude: 138.2529, traffic: 750000 },
-  { ip: '198.51.100.23', country: 'United Kingdom', countryCode: 'GB', latitude: 55.3781, longitude: -3.4360, traffic: 620000 },
-  { ip: '192.0.2.178', country: 'Canada', countryCode: 'CA', latitude: 56.1304, longitude: -106.3468, traffic: 480000 },
-  { ip: '192.168.1.5', country: 'Australia', countryCode: 'AU', latitude: -25.2744, longitude: 133.7751, traffic: 350000 },
-  { ip: '198.51.100.45', country: 'France', countryCode: 'FR', latitude: 46.6034, longitude: 1.8883, traffic: 290000 },
-  { ip: '203.0.113.12', country: 'Brazil', countryCode: 'BR', latitude: -14.2350, longitude: -51.9253, traffic: 180000 }
-];
-
 const GeoIPMap = ({ packetHistory }) => {
   const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [geoData, setGeoData] = useState(mockGeoData);
+  const [geoData, setGeoData] = useState([]);
+  const [countryData, setCountryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState('all'); // 'all', 'non_local', 'specific'
+  const [selectedCountryFilter, setSelectedCountryFilter] = useState('');
 
-  // In a real implementation, you would fetch GeoIP data here
-  // For now, we'll use mock data
+  // Fetch real GeoIP data
+  useEffect(() => {
+    fetchGeoIPData();
+    fetchCountryAnalytics();
+    
+    // Refresh data every 30 seconds
+    const interval = setInterval(() => {
+      fetchGeoIPData();
+      fetchCountryAnalytics();
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [filter, selectedCountryFilter]);
+
+  const fetchGeoIPData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/get_geoip_data');
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        setGeoData(data.geoip_data);
+      } else {
+        setError(data.message || 'Failed to fetch GeoIP data');
+      }
+    } catch (err) {
+      setError('Failed to fetch GeoIP data: ' + err.message);
+      console.error('Error fetching GeoIP data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchCountryAnalytics = async () => {
+    try {
+      const response = await fetch('/api/get_country_analytics');
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        setCountryData(data.country_data);
+      } else {
+        setError(data.message || 'Failed to fetch country analytics');
+      }
+    } catch (err) {
+      setError('Failed to fetch country analytics: ' + err.message);
+      console.error('Error fetching country analytics:', err);
+    }
+  };
 
   const handleMoveEnd = (position) => {
     setPosition(position);
   };
 
   const handleCountryClick = (geo) => {
-    const countryData = geoData.find(d => d.countryCode === geo.properties.ISO_A2);
+    const countryData = geoData.find(d => d.country_code === geo.properties.ISO_A2);
     if (countryData) {
       setSelectedCountry(countryData);
     }
@@ -43,6 +82,51 @@ const GeoIPMap = ({ packetHistory }) => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
+
+  const getCountryRiskClass = (countryName) => {
+    // In a real implementation, this would be based on threat intelligence
+    const highRiskCountries = ['North Korea', 'Iran', 'Russia', 'China'];
+    const mediumRiskCountries = ['United States', 'United Kingdom', 'Germany'];
+    
+    if (highRiskCountries.includes(countryName)) return 'anomaly-malicious';
+    if (mediumRiskCountries.includes(countryName)) return 'anomaly-suspicious';
+    return 'cyber-badge-success';
+  };
+
+  if (loading) {
+    return (
+      <div className="cyber-card">
+        <div className="cyber-card-body">
+          <div className="flex justify-center items-center h-96">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-neon-green"></div>
+            <span className="ml-3 text-cyber-neon-green">Loading geolocation data...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="cyber-card">
+        <div className="cyber-card-body">
+          <div className="text-center py-8">
+            <div className="text-cyber-neon-red">Error: {error}</div>
+            <button 
+              className="cyber-btn-primary mt-4"
+              onClick={() => {
+                setError(null);
+                fetchGeoIPData();
+                fetchCountryAnalytics();
+              }}
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -57,10 +141,52 @@ const GeoIPMap = ({ packetHistory }) => {
               </p>
             </div>
             <div className="mt-4 md:mt-0">
-              <button className="cyber-btn-primary">
+              <button 
+                className="cyber-btn-primary"
+                onClick={() => {
+                  fetchGeoIPData();
+                  fetchCountryAnalytics();
+                }}
+              >
                 Refresh Data
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Country Filter */}
+      <div className="cyber-card">
+        <div className="cyber-card-body">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex items-center">
+              <label className="text-cyber-neon-green mr-2">Filter:</label>
+              <select 
+                className="bg-cyber-gray-800 border border-cyber-border rounded-md text-cyber-neon-green px-3 py-2"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
+                <option value="all">All Countries</option>
+                <option value="non_local">Non-Local Countries</option>
+                <option value="specific">Specific Country</option>
+              </select>
+            </div>
+            
+            {filter === 'specific' && (
+              <div className="flex items-center">
+                <label className="text-cyber-neon-green mr-2">Country:</label>
+                <select 
+                  className="bg-cyber-gray-800 border border-cyber-border rounded-md text-cyber-neon-green px-3 py-2"
+                  value={selectedCountryFilter}
+                  onChange={(e) => setSelectedCountryFilter(e.target.value)}
+                >
+                  <option value="">Select Country</option>
+                  {Array.from(new Set(geoData.map(d => d.country))).map((country, index) => (
+                    <option key={index} value={country}>{country}</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -85,7 +211,7 @@ const GeoIPMap = ({ packetHistory }) => {
                   <Geographies geography={geoUrl}>
                     {({ geographies }) =>
                       geographies.map((geo) => {
-                        const countryData = geoData.find(d => d.countryCode === geo.properties.ISO_A2);
+                        const countryData = geoData.find(d => d.country_code === geo.properties.ISO_A2);
                         const hasTraffic = countryData && countryData.traffic > 0;
                         
                         return (
@@ -120,10 +246,10 @@ const GeoIPMap = ({ packetHistory }) => {
                       })
                     }
                   </Geographies>
-                  {geoData.map(({ ip, latitude, longitude, traffic }) => (
+                  {geoData.map(({ ip, latitude, longitude, traffic, country }) => (
                     <Marker key={ip} coordinates={[longitude, latitude]}>
                       <motion.circle
-                        r={Math.log(traffic) / 10}
+                        r={Math.log(traffic + 1) / 2}
                         fill="#ff00c8"
                         stroke="#0a0a0a"
                         strokeWidth={1}
@@ -133,7 +259,7 @@ const GeoIPMap = ({ packetHistory }) => {
                         className="neon-glow-red"
                       />
                       <motion.circle
-                        r={Math.log(traffic) / 10}
+                        r={Math.log(traffic + 1) / 2}
                         fill="rgba(255, 0, 192, 0.2)"
                         stroke="none"
                         initial={{ scale: 0 }}
@@ -171,8 +297,20 @@ const GeoIPMap = ({ packetHistory }) => {
                     <p className="text-cyber-neon-green">{formatBytes(selectedCountry.traffic)}</p>
                   </div>
                   <div>
-                    <p className="text-cyber-neon-blue text-sm">Country Code</p>
-                    <p className="text-cyber-neon-green">{selectedCountry.countryCode}</p>
+                    <p className="text-cyber-neon-blue text-sm">City</p>
+                    <p className="text-cyber-neon-green">{selectedCountry.city || 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <p className="text-cyber-neon-blue text-sm">Region</p>
+                    <p className="text-cyber-neon-green">{selectedCountry.region || 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <p className="text-cyber-neon-blue text-sm">ISP</p>
+                    <p className="text-cyber-neon-green">{selectedCountry.isp || 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <p className="text-cyber-neon-blue text-sm">ASN</p>
+                    <p className="text-cyber-neon-green">{selectedCountry.asn || 'Unknown'}</p>
                   </div>
                 </div>
                 <div className="mt-6">
@@ -197,13 +335,13 @@ const GeoIPMap = ({ packetHistory }) => {
                   <div>
                     <p className="text-cyber-neon-blue text-sm">Total Traffic</p>
                     <p className="text-2xl font-bold text-cyber-neon-green">
-                      {formatBytes(geoData.reduce((sum, d) => sum + d.traffic, 0))}
+                      {formatBytes(geoData.reduce((sum, d) => sum + (d.traffic || 0), 0))}
                     </p>
                   </div>
                   <div>
                     <p className="text-cyber-neon-blue text-sm">Top Country</p>
                     <p className="text-xl font-bold text-cyber-neon-green">
-                      {geoData.sort((a, b) => b.traffic - a.traffic)[0]?.country || 'N/A'}
+                      {geoData.sort((a, b) => (b.traffic || 0) - (a.traffic || 0))[0]?.country || 'N/A'}
                     </p>
                   </div>
                 </div>
@@ -218,10 +356,10 @@ const GeoIPMap = ({ packetHistory }) => {
         </div>
       </div>
 
-      {/* Traffic by Country */}
+      {/* Country Analytics */}
       <div className="cyber-card">
         <div className="cyber-card-header">
-          <h3 className="text-lg font-bold text-cyber-neon-green">Traffic by Country</h3>
+          <h3 className="text-lg font-bold text-cyber-neon-green">Country Analytics</h3>
         </div>
         <div className="cyber-card-body">
           <div className="overflow-x-auto">
@@ -229,18 +367,19 @@ const GeoIPMap = ({ packetHistory }) => {
               <thead>
                 <tr className="cyber-table-head">
                   <th scope="col" className="cyber-table-cell text-left">Country</th>
-                  <th scope="col" className="cyber-table-cell text-left">IP Address</th>
+                  <th scope="col" className="cyber-table-cell text-left">Packets</th>
                   <th scope="col" className="cyber-table-cell text-left">Traffic</th>
-                  <th scope="col" className="cyber-table-cell text-left">Share</th>
+                  <th scope="col" className="cyber-table-cell text-left">Unique IPs</th>
+                  <th scope="col" className="cyber-table-cell text-left">Top ISP</th>
+                  <th scope="col" className="cyber-table-cell text-left">Risk Level</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-cyber-border">
-                {geoData
-                  .filter(d => d.traffic > 0)
-                  .sort((a, b) => b.traffic - a.traffic)
+                {countryData
+                  .sort((a, b) => b.bytes - a.bytes)
                   .map((data, index) => {
-                    const totalTraffic = geoData.reduce((sum, d) => sum + d.traffic, 0);
-                    const share = ((data.traffic / totalTraffic) * 100).toFixed(1);
+                    const totalBytes = countryData.reduce((sum, d) => sum + d.bytes, 0);
+                    const share = totalBytes > 0 ? ((data.bytes / totalBytes) * 100).toFixed(1) : 0;
                     
                     return (
                       <motion.tr 
@@ -248,8 +387,7 @@ const GeoIPMap = ({ packetHistory }) => {
                         className="cyber-table-row"
                         whileHover={{ backgroundColor: 'rgba(26, 26, 46, 0.5)' }}
                         onClick={() => {
-                          const countryData = geoData.find(d => d.countryCode === data.countryCode);
-                          if (countryData) setSelectedCountry(countryData);
+                          // Find and select a country
                         }}
                       >
                         <td className="cyber-table-cell font-medium text-cyber-neon-green">
@@ -263,23 +401,22 @@ const GeoIPMap = ({ packetHistory }) => {
                           </div>
                         </td>
                         <td className="cyber-table-cell text-cyber-neon-blue">
-                          {data.ip}
+                          {data.packets.toLocaleString()}
                         </td>
                         <td className="cyber-table-cell text-cyber-neon-blue">
-                          {formatBytes(data.traffic)}
+                          {formatBytes(data.bytes)}
+                        </td>
+                        <td className="cyber-table-cell text-cyber-neon-blue">
+                          {data.unique_ips}
+                        </td>
+                        <td className="cyber-table-cell text-cyber-neon-blue">
+                          {data.isp_list.length > 0 ? data.isp_list[0] : 'Unknown'}
                         </td>
                         <td className="cyber-table-cell">
-                          <div className="flex items-center">
-                            <div className="w-24 bg-cyber-gray-700 rounded-full h-2 mr-2">
-                              <div 
-                                className="bg-cyber-neon-green h-2 rounded-full" 
-                                style={{ width: `${share}%` }}
-                              ></div>
-                            </div>
-                            <span className="text-sm text-cyber-neon-blue">
-                              {share}%
-                            </span>
-                          </div>
+                          <span className={`cyber-badge ${getCountryRiskClass(data.country)}`}>
+                            {getCountryRiskClass(data.country).includes('red') ? 'High' : 
+                             getCountryRiskClass(data.country).includes('yellow') ? 'Medium' : 'Low'}
+                          </span>
                         </td>
                       </motion.tr>
                     );

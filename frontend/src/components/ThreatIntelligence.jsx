@@ -1,27 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import FlaggedIPs from './FlaggedIPs';
+import PrivacyMaskedIPs from './PrivacyMaskedIPs';
 
 const ThreatIntelligence = () => {
   const [activeTab, setActiveTab] = useState('blacklist');
   const [searchTerm, setSearchTerm] = useState('');
+  const [threatStats, setThreatStats] = useState({
+    criticalThreats: 0,
+    highRiskIPs: 0,
+    threatReports: 0,
+    blockedIPs: 0,
+    vpnIPs: 0,
+    proxyIPs: 0,
+    torIPs: 0
+  });
+  const [blacklistData, setBlacklistData] = useState([]);
+  const [threatReports, setThreatReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Mock threat intelligence data
-  const mockBlacklistData = [
-    { ip: '192.168.1.100', threat: 'Malware Distribution', lastSeen: '2023-05-15', reports: 12, risk: 'High' },
-    { ip: '10.0.0.50', threat: 'Brute Force Attempts', lastSeen: '2023-05-14', reports: 8, risk: 'Medium' },
-    { ip: '172.16.0.75', threat: 'Phishing Campaign', lastSeen: '2023-05-12', reports: 15, risk: 'High' },
-    { ip: '192.168.2.200', threat: 'DDoS Botnet', lastSeen: '2023-05-10', reports: 22, risk: 'Critical' },
-    { ip: '10.10.10.10', threat: 'Spam Distribution', lastSeen: '2023-05-08', reports: 5, risk: 'Low' }
-  ];
+  useEffect(() => {
+    fetchThreatData();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchThreatData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const mockThreatReports = [
-    { id: 1, title: 'Ransomware Activity Detected', source: 'VirusTotal', severity: 'High', date: '2023-05-15' },
-    { id: 2, title: 'New Botnet C2 Infrastructure', source: 'AbuseIPDB', severity: 'Critical', date: '2023-05-14' },
-    { id: 3, title: 'Emerging Phishing Domains', source: 'AlienVault', severity: 'Medium', date: '2023-05-12' },
-    { id: 4, title: 'IoT Device Exploitation', source: 'Cisco Talos', severity: 'High', date: '2023-05-10' }
-  ];
+  const fetchThreatData = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch flagged IPs for blacklist data
+      const flaggedResponse = await fetch('/api/get_flagged_ips');
+      const flaggedData = await flaggedResponse.json();
+      
+      // Fetch VPN/Proxy/Tor data
+      const privacyResponse = await fetch('/api/get_vpn_proxy_tor_detection');
+      const privacyData = await privacyResponse.json();
+      
+      if (flaggedData.status === 'success' && privacyData.status === 'success') {
+        // Process flagged IPs for blacklist
+        const processedBlacklist = flaggedData.flagged_ips.map(ip => ({
+          ip: ip.ip,
+          threat: ip.threat_type || 'Malicious Activity',
+          lastSeen: new Date().toISOString().split('T')[0],
+          reports: ip.reports || 1,
+          risk: ip.risk_score >= 80 ? 'Critical' : ip.risk_score >= 60 ? 'High' : 'Medium'
+        }));
+        setBlacklistData(processedBlacklist);
+        
+        // Process privacy data for stats
+        const vpnData = privacyData.vpn_proxy_tor_data;
+        setThreatStats({
+          criticalThreats: flaggedData.flagged_ips.filter(ip => ip.risk_score >= 80).length,
+          highRiskIPs: flaggedData.flagged_ips.filter(ip => ip.risk_score >= 60).length,
+          threatReports: flaggedData.flagged_ips.length,
+          blockedIPs: 24, // This would come from a real blocked IPs API
+          vpnIPs: vpnData.total_vpn || 0,
+          proxyIPs: vpnData.total_proxy || 0,
+          torIPs: vpnData.total_tor || 0
+        });
+        
+        // Process threat reports
+        const processedReports = flaggedData.flagged_ips.slice(0, 4).map((ip, index) => ({
+          id: index + 1,
+          title: `${ip.threat_type || 'Malicious Activity'} from ${ip.ip}`,
+          source: 'Network Traffic Analyzer',
+          severity: ip.risk_score >= 80 ? 'Critical' : ip.risk_score >= 60 ? 'High' : 'Medium',
+          date: new Date().toISOString().split('T')[0]
+        }));
+        setThreatReports(processedReports);
+      } else {
+        setError('Failed to fetch threat intelligence data');
+      }
+    } catch (err) {
+      setError('Failed to fetch threat intelligence data');
+      console.error('Error fetching threat data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const filteredBlacklist = mockBlacklistData.filter(item => 
+  const filteredBlacklist = blacklistData.filter(item => 
     item.ip.includes(searchTerm) || item.threat.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -37,6 +98,81 @@ const ThreatIntelligence = () => {
         return 'cyber-badge-success';
     }
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="cyber-card">
+          <div className="cyber-card-body">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-cyber-neon-green">Threat Intelligence</h2>
+                <p className="text-cyber-neon-blue mt-1">
+                  Real-time threat feeds and malicious IP detection
+                </p>
+              </div>
+              <div className="mt-4 md:mt-0 flex space-x-2">
+                <button className="cyber-btn-primary">
+                  Update Feeds
+                </button>
+                <button className="cyber-btn-secondary">
+                  Export Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-neon-green"></div>
+          <span className="ml-3 text-cyber-neon-green text-lg">Loading threat intelligence data...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="cyber-card">
+          <div className="cyber-card-body">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-cyber-neon-green">Threat Intelligence</h2>
+                <p className="text-cyber-neon-blue mt-1">
+                  Real-time threat feeds and malicious IP detection
+                </p>
+              </div>
+              <div className="mt-4 md:mt-0 flex space-x-2">
+                <button className="cyber-btn-primary">
+                  Update Feeds
+                </button>
+                <button className="cyber-btn-secondary">
+                  Export Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="cyber-card">
+          <div className="cyber-card-body">
+            <div className="text-center py-8">
+              <div className="text-cyber-neon-red text-lg">Error: {error}</div>
+              <button 
+                className="cyber-btn-primary mt-4"
+                onClick={fetchThreatData}
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -77,7 +213,7 @@ const ThreatIntelligence = () => {
                   <dt className="text-sm font-medium text-cyber-neon-blue truncate">Critical Threats</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-bold text-cyber-neon-red glow-text">
-                      {mockBlacklistData.filter(item => item.risk === 'Critical').length}
+                      {threatStats.criticalThreats}
                     </div>
                   </dd>
                 </dl>
@@ -99,7 +235,7 @@ const ThreatIntelligence = () => {
                   <dt className="text-sm font-medium text-cyber-neon-blue truncate">High Risk IPs</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-bold text-cyber-neon-yellow glow-text">
-                      {mockBlacklistData.filter(item => item.risk === 'High').length}
+                      {threatStats.highRiskIPs}
                     </div>
                   </dd>
                 </dl>
@@ -121,7 +257,7 @@ const ThreatIntelligence = () => {
                   <dt className="text-sm font-medium text-cyber-neon-blue truncate">Threat Reports</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-bold text-cyber-neon-blue glow-text">
-                      {mockThreatReports.length}
+                      {threatStats.threatReports}
                     </div>
                   </dd>
                 </dl>
@@ -143,7 +279,76 @@ const ThreatIntelligence = () => {
                   <dt className="text-sm font-medium text-cyber-neon-blue truncate">Blocked IPs</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-bold text-cyber-neon-green glow-text">
-                      24
+                      {threatStats.blockedIPs}
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* New Stats for Privacy Masked IPs */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="cyber-stat-card">
+          <div className="cyber-stat-card-body">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-cyber-neon-pink/10 rounded-lg p-3 neon-glow-pink">
+                <svg className="h-6 w-6 text-cyber-neon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-cyber-neon-blue truncate">VPN IPs</dt>
+                  <dd className="flex items-baseline">
+                    <div className="text-2xl font-bold text-cyber-neon-pink glow-text">
+                      {threatStats.vpnIPs}
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="cyber-stat-card">
+          <div className="cyber-stat-card-body">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-cyber-neon-orange/10 rounded-lg p-3 neon-glow-orange">
+                <svg className="h-6 w-6 text-cyber-neon-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-cyber-neon-blue truncate">Proxy IPs</dt>
+                  <dd className="flex items-baseline">
+                    <div className="text-2xl font-bold text-cyber-neon-orange glow-text">
+                      {threatStats.proxyIPs}
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="cyber-stat-card">
+          <div className="cyber-stat-card-body">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-cyber-neon-purple/10 rounded-lg p-3 neon-glow-purple">
+                <svg className="h-6 w-6 text-cyber-neon-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-cyber-neon-blue truncate">Tor IPs</dt>
+                  <dd className="flex items-baseline">
+                    <div className="text-2xl font-bold text-cyber-neon-purple glow-text">
+                      {threatStats.torIPs}
                     </div>
                   </dd>
                 </dl>
@@ -159,6 +364,8 @@ const ThreatIntelligence = () => {
           <nav className="flex -mb-px">
             {[
               { id: 'blacklist', name: 'Blacklisted IPs', icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z' },
+              { id: 'flagged', name: 'Flagged IPs', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
+              { id: 'privacy', name: 'Privacy Masked IPs', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
               { id: 'reports', name: 'Threat Reports', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
               { id: 'settings', name: 'Feed Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' }
             ].map((tab) => (
@@ -268,11 +475,19 @@ const ThreatIntelligence = () => {
             </div>
           )}
 
+          {activeTab === 'flagged' && (
+            <FlaggedIPs />
+          )}
+
+          {activeTab === 'privacy' && (
+            <PrivacyMaskedIPs />
+          )}
+
           {activeTab === 'reports' && (
             <div>
               <h3 className="text-lg font-bold text-cyber-neon-green mb-4">Latest Threat Reports</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {mockThreatReports.map((report) => (
+                {threatReports.map((report) => (
                   <motion.div
                     key={report.id}
                     className="cyber-card bg-cyber-gray-800"
